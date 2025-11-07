@@ -1,0 +1,32 @@
+{
+  "plugins": {
+    "iron.nvim": {
+      "rev": "746414e",
+      "src": "https://github.com/Vigemus/iron.nvim"
+    },
+    "kanagawa-paper.nvim": {
+      "rev": "8423e16",
+      "src": "https://github.com/thesimonho/kanagawa-paper.nvim"
+    },
+    "mini.pick": {
+      "rev": "08a7220",
+      "src": "https://github.com/echasnovski/mini.pick"
+    },
+    "nvim-lspconfig": {
+      "rev": "2010fc6",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "oil.nvim": {
+      "rev": "7e1cd77",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "typst-preview.nvim": {
+      "rev": "64469f8",
+      "src": "https://github.com/chomosuke/typst-preview.nvim"
+    },
+    "vague.nvim": {
+      "rev": "dba2805",
+      "src": "https://github.com/vague2k/vague.nvim"
+    }
+  }
+}
