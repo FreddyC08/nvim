@@ -8,6 +8,10 @@
       "rev": "8423e16",
       "src": "https://github.com/thesimonho/kanagawa-paper.nvim"
     },
+    "lazygit.nvim": {
+      "rev": "2305dee",
+      "src": "https://github.com/kdheepak/lazygit.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "d7b5feb",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"

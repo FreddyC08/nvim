@@ -29,6 +29,7 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "https://github.com/kdheepak/lazygit.nvim" },
 })
 
 vim.cmd.colorscheme("vague")
@@ -54,6 +55,7 @@ map("n", "<leader>f", ":Pick files<CR>")
 map("n", "<leader>h", ":Pick help<CR>")
 map("n", "<leader>e", ":Oil<CR>")
 map("n", "<leader>i", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+map('n', '<leader>lg', ':LazyGit<CR>', { desc = "Open lazygit" })
 
 -- LSP
 require("mason").setup()
