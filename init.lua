@@ -1,49 +1,106 @@
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
+vim.o.cursorcolumn = false
+vim.o.ignorecase = true
+vim.o.smartindent = true
 vim.o.wrap = false
 vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
+vim.o.clipboard = "unnamedplus"
+vim.o.signcolumn = "yes"
 
-vim.keymap.set('n', '<leader>s', ':source<CR>')
-vim.keymap.set('n', '<leader>w', ':write<CR>')
-vim.keymap.set('n', '<leader>q', ':quit<CR>')
+local map = vim.keymap.set
+
+map("n", "<leader>o", ":source<CR>")
+map("n", "<leader>w", ":write<CR>")
+map({ "n", "v", "x" }, "<leader>s", ":e #<CR>")
+map({ "n", "v", "x" }, "<leader>S", ":sf #<CR>")
 
 vim.pack.add({
 	{ src = "https://github.com/vague2k/vague.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
-	{ src = 'https://github.com/neovim/nvim-lspconfig' },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/Vigemus/iron.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
 })
 
 vim.cmd.colorscheme("vague")
 
-vim.api.nvim_create_autocmd('LspAttach', {
+vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		if client:supports_method('textDocument/completion') then
+		if client:supports_method("textDocument/completion") then
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
 	end,
 })
 vim.cmd("set completeopt+=noselect")
 
-require "mini.pick".setup()
-require "oil".setup()
-
-vim.keymap.set('n', '<leader>f', ':Pick files<CR>')
-vim.keymap.set('n', '<leader>h', ':Pick help<CR>')
-vim.keymap.set('n', '<leader>e', ':Oil<CR>')
-
-vim.lsp.config('lua_ls', {
-	settings = { Lua = { diagnostics = { globals = { 'vim' } } } },
+require("mini.pick").setup()
+require("oil").setup()
+require("nvim-treesitter.configs").setup({
+	ensure_installed = { "python", "julia", "dockerfile", "javascript" },
+	highlight = { enable = true },
 })
 
-vim.lsp.enable({ "lua_ls", "pyright" })
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+map("n", "<leader>f", ":Pick files<CR>")
+map("n", "<leader>h", ":Pick help<CR>")
+map("n", "<leader>e", ":Oil<CR>")
+map("n", "<leader>i", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+
+-- LSP
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-tool-installer").setup({
+	ensure_installed = {
+		"lua_ls",
+		"stylua",
+		"pyright",
+		"ruff",
+		"julia-lsp",
+		"oxlint",
+		"dockerfile-language-server",
+		"docker-language-server",
+		"docker-compose-language-service",
+	},
+})
+map("n", "<leader>lf", vim.lsp.buf.format)
+
+-- lua requires config
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
+			diagnostics = {
+				globals = {
+					"vim",
+					"require",
+					"client",
+				},
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
+
+-- python
+-- julia
+-- docker
+-- js
 
 vim.cmd(":hi statusline guibg=NONE")
 
@@ -52,19 +109,19 @@ local iron = require("iron.core")
 local view = require("iron.view")
 local common = require("iron.fts.common")
 
-iron.setup {
+iron.setup({
 	config = {
 		scratch_repl = true,
 		repl_definition = {
 			sh = {
-				command = { "zsh" }
+				command = { "zsh" },
 			},
 			python = {
-				command = { "ipython3", "--no-banner", "--no-autoindent" },
+				command = { "ipython3", "--no-banner", "--no-autoindent", "--TerminalInteractiveShell.confirm_exit=False" },
 				format = common.bracketed_paste_python,
 				block_dividers = { "# %%", "#%%" },
-				env = { PYTHON_BASIC_REPL = "1" }
-			}
+				env = { PYTHON_BASIC_REPL = "1" },
+			},
 		},
 		repl_filetype = function(bufnr, ft)
 			return ft
@@ -94,8 +151,8 @@ iron.setup {
 	},
 	highlight = { italic = true },
 	ignore_blank_lines = true,
-}
+})
 
 -- iron also has a list of commands, see :h iron-commands for all available commands
-vim.keymap.set('n', '<space>rf', '<cmd>IronFocus<cr>')
-vim.keymap.set('n', '<space>rh', '<cmd>IronHide<cr>')
+map("n", "<space>rf", "<cmd>IronFocus<cr>")
+map("n", "<space>rh", "<cmd>IronHide<cr>")
