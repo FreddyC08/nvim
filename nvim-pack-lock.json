@@ -8,6 +8,10 @@
       "rev": "8423e16",
       "src": "https://github.com/thesimonho/kanagawa-paper.nvim"
     },
+    "lazydocker.nvim": {
+      "rev": "3330d1f",
+      "src": "https://github.com/mgierada/lazydocker.nvim"
+    },
     "lazygit.nvim": {
       "rev": "2305dee",
       "src": "https://github.com/kdheepak/lazygit.nvim"
@@ -39,6 +43,10 @@
     "oil.nvim": {
       "rev": "7e1cd77",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "toggleterm.nvim": {
+      "rev": "9a88eae",
+      "src": "https://github.com/akinsho/toggleterm.nvim"
     },
     "typst-preview.nvim": {
       "rev": "64469f8",
